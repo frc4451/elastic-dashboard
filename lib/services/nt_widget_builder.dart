@@ -1,3 +1,4 @@
+import 'package:elastic_dashboard/widgets/nt_widgets/multi-topic/reef_selector.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dot_cast/dot_cast.dart';
@@ -294,6 +295,16 @@ class NTWidgetBuilder {
         fromJson: RelayModel.fromJson,
         minHeight: _normalSize * 2,
         defaultHeight: 2);
+
+    register(
+        name: ReefSelector.widgetType,
+        model: ReefSelectorModel.new,
+        widget: ReefSelector.new,
+        fromJson: ReefSelectorModel.fromJson,
+        minHeight: _normalSize * 5,
+        minWidth: _normalSize * 5,
+        defaultWidth: _normalSize * 5,
+        defaultHeight: 5);
 
     register(
         name: RobotPreferences.widgetType,
