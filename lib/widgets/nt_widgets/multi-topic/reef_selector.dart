@@ -29,7 +29,14 @@ class ReefSelectorModel extends MultiTopicNTWidgetModel {
         defaultSubscription,
       ];
 
-  String? selectedChoice;
+  String? _selectedChoice;
+
+  String? get selectedChoice => _selectedChoice;
+
+  set selectedChoice(value) {
+    _selectedChoice = value;
+    refresh();
+  }
 
   StringChooserData? previousData;
 
@@ -101,10 +108,9 @@ class ReefSelector extends NTWidget {
   @override
   Widget build(BuildContext context) {
     ReefSelectorModel model = cast(context.watch<NTWidgetModel>());
-    List<NT4Subscription> listeners = [];
 
     return ListenableBuilder(
-        listenable: Listenable.merge(listeners),
+        listenable: Listenable.merge(model.subscriptions),
         child: model.reefTreeImage,
         builder: (context, child) {
           // --- This is mostly copy-pasta from split_button_chooser for prototyping
@@ -214,6 +220,18 @@ class ReefSelector extends NTWidget {
             children: [
               model.reefTreeImage,
               ...buttons,
+              Positioned(
+                  bottom: 5,
+                  right: 5,
+                  child: SizedBox(
+                      child: (showWarning)
+                          ? const Tooltip(
+                              message:
+                                  'Selected value has not been published to Network Tables.\nRobot code will not be receiving the correct value.',
+                              child:
+                                  Icon(Icons.priority_high, color: Colors.red),
+                            )
+                          : const Icon(Icons.check, color: Colors.green)))
             ],
           );
         });
